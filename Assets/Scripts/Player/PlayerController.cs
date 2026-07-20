@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
 
+    private static readonly int Speed = Animator.StringToHash("Speed");
     private float speed = 15f;
 
     private void Awake()
@@ -15,7 +16,7 @@ public class PlayerController : MonoBehaviour
         animator = transform_.GetComponent<Animator>();
     }
 
-    void Start()
+    private void Start()
     {
         transform_.rotation = Quaternion.Euler(Vector2.zero);
     }
@@ -28,13 +29,14 @@ public class PlayerController : MonoBehaviour
 
         //Move
         rb.MovePosition((Vector2)transform_.position + speed * Time.fixedDeltaTime * direction.normalized);
-        animator.SetFloat("Speed", direction.magnitude);
+        animator.SetFloat(Speed, direction.magnitude);
 
         //Rotation
-        if (direction != Vector2.zero) 
+        if (direction != Vector2.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
             transform_.rotation = Quaternion.Euler(0, 0, angle);
+            Debug.Log(angle);
         }
     }
 }

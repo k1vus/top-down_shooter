@@ -1,5 +1,9 @@
+.vscode/
 Packages/
 Library/
-.vscode/
+UserSettings/
 Assembly-CSharp.csproj
-Top-down Shooter.sln
+Top-down Shooter.slnx
+Temp/
+*.csproj
+obj/
