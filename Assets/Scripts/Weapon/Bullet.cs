@@ -23,5 +23,12 @@ public class Bullet : MonoBehaviour
         {
             Destroy(transform.gameObject);
         }
-    }    
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.transform.CompareTag("Obstacle"))
+        {
+            Destroy(transform.gameObject);
+        }
+    }
 }

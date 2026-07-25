@@ -148,6 +148,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -404,13 +417,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldiers_12
+      name: Character2_Death1
       rect:
         serializedVersion: 2
-        x: 110
-        y: 167
-        width: 30
-        height: 40
+        x: 106
+        y: 175
+        width: 28
+        height: 31
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -425,13 +438,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldiers_13
+      name: Character2_Death2
       rect:
         serializedVersion: 2
-        x: 150
-        y: 167
-        width: 30
-        height: 40
+        x: 154
+        y: 174
+        width: 31
+        height: 31
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -441,6 +454,27 @@ TextureImporter:
       bones: []
       spriteID: b14f0c6a41ec07e60924a3a43ef7d26f
       internalID: 1222272432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character2_Death3
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 172
+        width: 34
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 420e3c7acfa5aad4a87260f570146348
+      internalID: 1689684125
       vertices: []
       indices: 
       edges: []
@@ -456,6 +490,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Character2_Death1: 1337247809
+      Character2_Death2: 1222272432
+      Character2_Death3: 1689684125
       Character2_Idle: -1933751113
       Character2_Shoot1: -1092114026
       Character2_Shoot2: -314719751
@@ -465,8 +502,6 @@ TextureImporter:
       Character2_Walk2: -915585797
       Soldiers_0: 1056997292
       Soldiers_1: -206747398
-      Soldiers_12: 1337247809
-      Soldiers_13: 1222272432
       Soldiers_2: 165944161
       Soldiers_3: -1219240527
       Soldiers_4: 386131868

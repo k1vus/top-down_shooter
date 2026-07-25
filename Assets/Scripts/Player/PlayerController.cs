@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,16 +10,36 @@ public class PlayerController : MonoBehaviour
     private static readonly int Speed = Animator.StringToHash("Speed");
     private float speed = 15f;
 
+    private float maxHealth = 100f;
+    public float currentHealth = 100f;
+    private float heal = 5f; // per second
+
+    private WaitForSeconds waitForSeconds;
+
     private void Awake()
     {
         transform_ = transform.GetComponent<Transform>();
         rb = transform_.GetComponent<Rigidbody2D>();
         animator = transform_.GetComponent<Animator>();
+
+        waitForSeconds = new(1f);
     }
 
     private void Start()
     {
         transform_.rotation = Quaternion.Euler(Vector2.zero);
+    }
+
+    private void Update()
+    {
+        if (currentHealth < maxHealth)
+        {
+            StartCoroutine(Heal());
+        }
+        else
+        {
+            StopCoroutine(Heal());
+        }
     }
 
     private void FixedUpdate()
@@ -39,4 +60,19 @@ public class PlayerController : MonoBehaviour
             Debug.Log(angle);
         }
     }
+
+    private void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+    }
+
+    private IEnumerator Heal()
+    {
+        while (true)
+        {
+            currentHealth += heal;
+            currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+            yield return waitForSeconds;
+        }
+     }
 }
