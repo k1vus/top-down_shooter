@@ -5,28 +5,29 @@ public class PlayerController : MonoBehaviour
 {
     private Transform transform_;
     private Rigidbody2D rb;
-    private Animator animator;
 
-    private static readonly int Speed = Animator.StringToHash("Speed");
+    private PlayerAnimator playerAnimator;
+    
     private float speed = 15f;
 
     private float maxHealth = 100f;
-    public float currentHealth = 100f;
+    public float currentHealth;
     private float heal = 5f; // per second
+    private float phantomHealedHealth;
 
     private WaitForSeconds waitForSeconds;
 
-    private void Awake()
+    public void Initialize()
     {
         transform_ = transform.GetComponent<Transform>();
         rb = transform_.GetComponent<Rigidbody2D>();
-        animator = transform_.GetComponent<Animator>();
 
-        waitForSeconds = new(1f);
-    }
+        playerAnimator = transform_.GetComponent<PlayerAnimator>();
 
-    private void Start()
-    {
+        currentHealth = maxHealth;
+
+        waitForSeconds = new(10f);
+
         transform_.rotation = Quaternion.Euler(Vector2.zero);
     }
 
@@ -34,12 +35,18 @@ public class PlayerController : MonoBehaviour
     {
         if (currentHealth < maxHealth)
         {
-            StartCoroutine(Heal());
+            Heal();
         }
-        else
+
+        if (currentHealth <= 0f)
         {
-            StopCoroutine(Heal());
+            playerAnimator.DieAnimation();
         }
+
+        #if DEBUG
+            if (Input.GetKeyUp(KeyCode.X))
+                TakeDamage(50f);
+        #endif
     }
 
     private void FixedUpdate()
@@ -50,14 +57,13 @@ public class PlayerController : MonoBehaviour
 
         //Move
         rb.MovePosition((Vector2)transform_.position + speed * Time.fixedDeltaTime * direction.normalized);
-        animator.SetFloat(Speed, direction.magnitude);
+        playerAnimator.MoveAnimation(direction.magnitude);
 
         //Rotation
         if (direction != Vector2.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
             transform_.rotation = Quaternion.Euler(0, 0, angle);
-            Debug.Log(angle);
         }
     }
 
@@ -66,13 +72,19 @@ public class PlayerController : MonoBehaviour
         currentHealth -= damage;
     }
 
-    private IEnumerator Heal()
+    private void Heal()
     {
-        while (true)
+        phantomHealedHealth += Time.deltaTime * heal;
+
+        if (Mathf.Round(phantomHealedHealth) == heal)
         {
-            currentHealth += heal;
-            currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-            yield return waitForSeconds;
-        }
-     }
+            currentHealth += Mathf.Clamp(heal, 0f, maxHealth);
+            phantomHealedHealth = 0f;
+        } 
+    }
+
+    public void Die()
+    {
+        Time.timeScale = 0f;
+    }
 }

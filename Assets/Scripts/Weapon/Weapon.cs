@@ -2,17 +2,21 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    private PlayerAnimator playerAnimator;
+
     protected GameObject bulletPrefab;
     protected float bulletSpeed = 50f;
     protected float bulletDamage = 20f;
 
-    private float fireRate = 0.5f;
+    private float fireRate = 0.25f;
     protected float fireRateAtStart;
 
     protected Transform player;
 
-    protected void Awake()
+    public void Initialize()
     {
+        playerAnimator = GameObject.Find("Player").transform.GetComponent<PlayerAnimator>();
+
         bulletPrefab = Resources.Load<GameObject>("Bullet");
 
         fireRateAtStart = fireRate;
@@ -22,12 +26,15 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
+        playerAnimator.ShootAnimation(Input.GetMouseButton(0));
         fireRate -= Time.deltaTime;
 
         if (Input.GetMouseButton(0) && fireRate <= 0)
         {
             Shoot();
         }
+
+        
     }
 
     public void Shoot()

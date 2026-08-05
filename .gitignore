@@ -3,7 +3,6 @@ Packages/
 Library/
 UserSettings/
 Assembly-CSharp.csproj
-Top-down Shooter.sln*
 Temp/
 *.csproj
 obj/
