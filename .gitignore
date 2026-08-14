@@ -6,3 +6,5 @@ Assembly-CSharp.csproj
 Temp/
 *.csproj
 obj/
+Assets/FolderColor
+Assets/HenrizyTools

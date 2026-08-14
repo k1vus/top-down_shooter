@@ -1,21 +1,25 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Weapon : MonoBehaviour
+public class Weapon : MonoBehaviour, IRestartable
 {
-    private PlayerAnimator playerAnimator;
+    protected PlayerAnimation playerAnimator;
 
+    protected List<Bullet> bullets = new();
     protected GameObject bulletPrefab;
     protected float bulletSpeed = 50f;
     protected float bulletDamage = 20f;
 
-    private float fireRate = 0.25f;
+    private float fireRate = 0.2f;
     protected float fireRateAtStart;
 
     protected Transform player;
 
     public void Initialize()
     {
-        playerAnimator = GameObject.Find("Player").transform.GetComponent<PlayerAnimator>();
+        playerAnimator = transform.GetComponent<PlayerAnimation>();
 
         bulletPrefab = Resources.Load<GameObject>("Bullet");
 
@@ -29,12 +33,10 @@ public class Weapon : MonoBehaviour
         playerAnimator.ShootAnimation(Input.GetMouseButton(0));
         fireRate -= Time.deltaTime;
 
-        if (Input.GetMouseButton(0) && fireRate <= 0)
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && fireRate <= 0)
         {
             Shoot();
         }
-
-        
     }
 
     public void Shoot()
@@ -49,10 +51,20 @@ public class Weapon : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, position, rotation);
 
+        bullets = FindObjectsOfType<Bullet>().ToList();
+
         Bullet bulletComponent = bullet.transform.GetComponent<Bullet>();
         bulletComponent.speed = bulletSpeed;
         bulletComponent.damage = bulletDamage;
 
         fireRate = fireRateAtStart;
+    }
+
+    public void Restart()
+    {
+        foreach (Bullet bullet in bullets)
+        {
+            Destroy(bullet != null ? bullet.gameObject : null);
+        }
     }
 }

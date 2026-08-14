@@ -1,52 +1,22 @@
-using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IRestartable
 {
     private Transform transform_;
     private Rigidbody2D rb;
 
-    private PlayerAnimator playerAnimator;
+    private PlayerAnimation playerAnimator;
     
     private float speed = 15f;
-
-    private float maxHealth = 100f;
-    public float currentHealth;
-    private float heal = 5f; // per second
-    private float phantomHealedHealth;
-
-    private WaitForSeconds waitForSeconds;
 
     public void Initialize()
     {
         transform_ = transform.GetComponent<Transform>();
         rb = transform_.GetComponent<Rigidbody2D>();
 
-        playerAnimator = transform_.GetComponent<PlayerAnimator>();
+        playerAnimator = transform_.GetComponent<PlayerAnimation>();
 
-        currentHealth = maxHealth;
-
-        waitForSeconds = new(10f);
-
-        transform_.rotation = Quaternion.Euler(Vector2.zero);
-    }
-
-    private void Update()
-    {
-        if (currentHealth < maxHealth)
-        {
-            Heal();
-        }
-
-        if (currentHealth <= 0f)
-        {
-            playerAnimator.DieAnimation();
-        }
-
-        #if DEBUG
-            if (Input.GetKeyUp(KeyCode.X))
-                TakeDamage(50f);
-        #endif
+        transform_.rotation = Quaternion.identity;
     }
 
     private void FixedUpdate()
@@ -67,24 +37,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TakeDamage(float damage)
+    public void Restart()
     {
-        currentHealth -= damage;
-    }
-
-    private void Heal()
-    {
-        phantomHealedHealth += Time.deltaTime * heal;
-
-        if (Mathf.Round(phantomHealedHealth) == heal)
-        {
-            currentHealth += Mathf.Clamp(heal, 0f, maxHealth);
-            phantomHealedHealth = 0f;
-        } 
-    }
-
-    public void Die()
-    {
-        Time.timeScale = 0f;
+        transform_.position = Vector3.zero;
+        transform_.rotation = Quaternion.identity;
     }
 }

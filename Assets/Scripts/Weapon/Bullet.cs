@@ -21,14 +21,20 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            Destroy(transform.gameObject);
+            Destroy();
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
+    private void OnCollisionEnter2D(Collision2D other)
+    {
         if (other.transform.CompareTag("Obstacle"))
         {
-            Destroy(transform.gameObject);
+            Destroy();
         }
+    }
+
+    public void Destroy()
+    {
+        Destroy(transform.gameObject);
     }
 }
